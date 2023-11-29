@@ -17,7 +17,6 @@ export interface InitOutput {
   readonly __wbindgen_free: (a: number, b: number, c: number) => void;
   readonly __wbindgen_exn_store: (a: number) => void;
   readonly wasm_bindgen__convert__closures__invoke2_mut__h315827db3d775f0e: (a: number, b: number, c: number, d: number) => void;
-  readonly wasm_bindgen__convert__closures__invoke3_mut__h112a8cfbb56f49d2: (a: number, b: number, c: number, d: number, e: number) => void;
 }
 
 export type SyncInitInput = BufferSource | WebAssembly.Module;

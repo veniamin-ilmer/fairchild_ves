@@ -24,7 +24,7 @@ pub async fn run() {
   let bios = if let Some(link) = params.get("bios") {
     let data1 = fetch(&window, link).await;
     if let Some(data) = data1 {
-      panic!("{:X} {:X} {:X} {:X} {:X} {:X}", data[0], data[1], data[2], data[3], data[4], data[5]);
+      panic!("len: {}", data.len());
     }
     data1
   } else { None };
@@ -110,11 +110,7 @@ async fn fetch(window: &web_sys::Window, link: &str) -> Option<Vec<u8>> {
 
           // Convert ArrayBuffer to Vec<u8>
           let uint8_array = js_sys::Uint8Array::new(&body);
-          let mut vec = Vec::new();
-          uint8_array.for_each(&mut |value, _, _| {
-            vec.push(value);
-          });
-          return Some(vec);
+          return Some(uint8_array.to_vec());
         } else {
         panic!("fail1");
         }
