@@ -1,0 +1,45 @@
+[package]
+name = "fairchild_ves"
+version = "0.1.0"
+edition = "2021"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[lib]
+crate-type = ["cdylib"]
+
+[dependencies]
+wasm-bindgen = "0.2.88"
+boards = { path = "../boards" }
+log = "*"
+console_error_panic_hook = "0.1.7"
+instant = { version = "0.1.12", features = [ "wasm-bindgen" ] }
+js-sys = "0.3.65"
+wasm-bindgen-futures = "0.4.38"
+
+[dependencies.web-sys]
+web-sys = "0.3.65"
+features = [
+  'Window',
+  'Document',
+  'HtmlCollection',
+  
+  'HtmlCanvasElement',
+  'CanvasRenderingContext2d',
+  
+  'AudioContext',
+  'AudioContextState',
+  'AudioDestinationNode',
+  'OscillatorNode',
+  'OscillatorType',
+  'AudioParam',
+  
+  'Url',
+  'Location',
+  
+  'Headers',
+  'Request',
+  'RequestInit',
+  'RequestMode',
+  'Response',
+]
