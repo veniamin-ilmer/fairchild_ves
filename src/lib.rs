@@ -105,10 +105,14 @@ async fn fetch(window: &web_sys::Window, link: &str) -> Option<Vec<u8>> {
   if let Ok(request) = web_sys::Request::new_with_str_and_init(link, &opts) {
     if let Ok(resp_value) = wasm_bindgen_futures::JsFuture::from(window.fetch_with_request(&request)).await {
       if let Ok(resp) = resp_value.dyn_into::<web_sys::Response>() {
-        // Read the response body as an ArrayBuffer
-        if let Ok(blob) = resp.blob() {
-          let uint8_array = js_sys::Uint8Array::new(&blob);
-          return Some(uint8_array.to_vec());
+        if let Ok(blob_future) = resp.blob() {
+          let blob = wasm_bindgen_futures::JsFuture::from(blob_future).await;
+          if let Ok(blob_text) = blob {
+            let uint8_array = js_sys::Uint8Array::new(&blob_text);
+            return Some(uint8_array.to_vec());
+          } else {
+            panic!("fail0");
+          }
         } else {
         panic!("fail1");
         }
