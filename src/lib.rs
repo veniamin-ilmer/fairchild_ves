@@ -22,7 +22,11 @@ pub async fn run() {
   let params = parse_query_string(&search);
   
   let bios = if let Some(link) = params.get("bios") {
-    fetch(&window, link).await
+    let data1 = fetch(&window, link).await;
+    if let Some(data) = data1 {
+      panic!("{:X} {:X} {:X} {:X} {:X} {:X}", data[0], data[1], data[2], data[3], data[4], data[5]);
+    }
+    data1
   } else { None };
 
   let rom = if let Some(link) = params.get("rom") {
@@ -111,9 +115,17 @@ async fn fetch(window: &web_sys::Window, link: &str) -> Option<Vec<u8>> {
             vec.push(value);
           });
           return Some(vec);
+        } else {
+        panic!("fail1");
         }
+      } else {
+      panic!("fail2");
       }
+    } else {
+    panic!("fail3");
     }
+  } else {
+    panic!("fail4");
   }
   None
 }
