@@ -1,0 +1,12 @@
+{
+  "name": "fairchild_ves",
+  "version": "0.1.0",
+  "files": [
+    "fairchild_ves_bg.wasm",
+    "fairchild_ves.js",
+    "fairchild_ves.d.ts"
+  ],
+  "module": "fairchild_ves.js",
+  "types": "fairchild_ves.d.ts",
+  "sideEffects": false
+}
