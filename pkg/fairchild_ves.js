@@ -443,8 +443,8 @@ function __wbg_get_imports() {
         const ret = result;
         return ret;
     };
-    imports.wbg.__wbg_arrayBuffer_e32d72b052ba31d7 = function() { return handleError(function (arg0) {
-        const ret = getObject(arg0).arrayBuffer();
+    imports.wbg.__wbg_blob_8963bd1c45e04690 = function() { return handleError(function (arg0) {
+        const ret = getObject(arg0).blob();
         return addHeapObject(ret);
     }, arguments) };
     imports.wbg.__wbg_now_0669e62508913829 = function(arg0) {
