@@ -17,6 +17,8 @@
 
       th { user-select: none }
       
+      #registers { font-size: 1vw }
+      
       #buttons th { border: 1px solid black; }
 
       button { font-size: 20px; cursor: pointer; }
@@ -39,7 +41,7 @@
       
       .desktoponly {display:display;}
 
-      @media only screen and (max-width: 900px) {
+      @media only screen and (max-width: 1000px) {
       .desktoponly {display:none;}
       .main_flex {flex-direction: column}
       }
@@ -117,6 +119,14 @@
       
       //Map out all of the button clicks.
       window.addEventListener("load", function() {
+        const canvas = document.getElementById('canvas');
+        const ctx = canvas.getContext('2d');
+        canvas.addEventListener('click', () => {
+          if (!isMouseCaptured) {
+            canvas.requestPointerLock();
+          }
+        });
+        
         const console = document.getElementById("console");
         for(let i = 0; i < console.children.length; i++) {
           const button = console.children[i];
@@ -125,7 +135,13 @@
             button.addEventListener("mousedown", function(e) {
               pendingButtons.push([code, 1]);
             });
+            button.addEventListener("touchstart", function(e) {
+              pendingButtons.push([code, 1]);
+            });
             button.addEventListener("mouseup", function(e) {
+              pendingButtons.push([code, 2]);
+            });
+            button.addEventListener("touchend", function(e) {
               pendingButtons.push([code, 2]);
             });
           }
@@ -138,20 +154,17 @@
             button.addEventListener("mousedown", function(e) {
               pendingButtons.push([code, 1]);
             });
+            button.addEventListener("touchstart", function(e) {
+              pendingButtons.push([code, 1]);
+            });
             button.addEventListener("mouseup", function(e) {
+              pendingButtons.push([code, 2]);
+            });
+            button.addEventListener("touchend", function(e) {
               pendingButtons.push([code, 2]);
             });
           }
         }
-        
-        
-        const canvas = document.getElementById('canvas');
-        const ctx = canvas.getContext('2d');
-        canvas.addEventListener('click', () => {
-          if (!isMouseCaptured) {
-            canvas.requestPointerLock();
-          }
-        });
       });
       
       // Mapping object for key codes to button values
@@ -231,9 +244,9 @@
     </table>
     </aside>
     <article style="flex: 1; display:flex; flex-direction: column; align-items: center; padding-right: 20px" class="monospace">
-      <div style="font-size:24px; user-select: none">Fairchild Channel F Video Entertainment System</div>
+      <div style="font-size:20px; user-select: none">Fairchild Channel F Video Entertainment System</div>
       <div>
-        <canvas id="canvas" width="612" height="464" style="border:1px solid black; background-color: black"></canvas>
+        <canvas id="canvas" width="515" height="348" style="border:1px solid black; background-color: black"></canvas>
       </div>
       <div style="display:flex;flex-direction: row;" id="console">
         <button code="255" style="font-size:18px;">Reset</button>
@@ -249,25 +262,27 @@
 
     </article>
     <aside style="flex: 1">
-      <h4>Use the Mouse or Keyboard Numpad</h4>
-      <div id="numpad">
-          <div class="button hidden"></div>
-          <button class="button square" code="9">&uarr;</button>
-          <div class="button hidden"></div>
-          <button class="button double-height" code="11">&#8635;</button>
-          
-          <button class="button square" code="7">&larr;</button>
-          <div class="button hidden"></div>
-          <button class="button square" code="8">&rarr;</button>
-          
-          <div class="button hidden"></div>
-          <button class="button square" code="10">&darr;</button>
-          <div class="button hidden"></div>
-          <button class="button double-height" code="12">&#8634;</button>
-          
-          <button class="button double-width" code="5">Push</button>
-          <button class="button square" code="6">Pull</button>
-      </div>
+      <center>
+        <h4>Use the Mouse or Keyboard Numpad</h4>
+        <div id="numpad">
+            <div class="button hidden"></div>
+            <button class="button square" code="9">&uarr;</button>
+            <div class="button hidden"></div>
+            <button class="button double-height" code="11">&#8635;</button>
+            
+            <button class="button square" code="7">&larr;</button>
+            <div class="button hidden"></div>
+            <button class="button square" code="8">&rarr;</button>
+            
+            <div class="button hidden"></div>
+            <button class="button square" code="10">&darr;</button>
+            <div class="button hidden"></div>
+            <button class="button double-height" code="12">&#8634;</button>
+            
+            <button class="button double-width" code="5">Push</button>
+            <button class="button square" code="6">Pull</button>
+        </div>
+      </center>
 
       <h4>What is this?</h4>
       This is an emulation of the <a href="https://en.wikipedia.org/wiki/Fairchild_Channel_F">Fairchild Channel F</a>, the world's first video game console to use ROM cartridges. Released in 1976. It was had an unusual chip design, dividing the CPU into two separate chips. The 3850 CPU and the 3851 PSU (Program Storage Unit). The PSU contained the Boot ROM, but also contained code and data registers. It's almost as if the PSU was an iterator, rather than an array. The CPU asked for the next data rather than holding onto an index.

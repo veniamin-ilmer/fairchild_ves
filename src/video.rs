@@ -45,7 +45,7 @@ impl Video {
           });
           let canvas_context: &web_sys::CanvasRenderingContext2d = self.canvas_context.dyn_ref().unwrap();
           canvas_context.set_fill_style(&html_color);
-          canvas_context.fill_rect(((127 - 4 - x) * 6) as f64, ((59 - y) * 8) as f64, 6.0, 8.0);  //The TV stretches out the pixels changing 16:9 into 4:3. I get close to this when scaling.
+          canvas_context.fill_rect(((127 - 4 - x) * 5) as f64, ((59 - y) * 6) as f64, 5.0, 6.0);  //The TV stretches out the pixels changing 16:9 into 4:3. I get close to this when scaling.
         }
       }
     }

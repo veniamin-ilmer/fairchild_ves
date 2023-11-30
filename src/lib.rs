@@ -97,9 +97,9 @@ async fn fetch(window: &web_sys::Window, link: &str) -> Option<Vec<u8>> {
   if let Ok(request) = web_sys::Request::new_with_str(link) {
     if let Ok(resp_value) = wasm_bindgen_futures::JsFuture::from(window.fetch_with_request(&request)).await {
       if let Ok(resp) = resp_value.dyn_into::<web_sys::Response>() {
-        if let Ok(blob_future) = resp.array_buffer() {
-          if let Ok(blob) = wasm_bindgen_futures::JsFuture::from(blob_future).await {
-            let uint8_array = js_sys::Uint8Array::new(&blob);
+        if let Ok(buffer_future) = resp.array_buffer() {
+          if let Ok(buffer) = wasm_bindgen_futures::JsFuture::from(buffer_future).await {
+            let uint8_array = js_sys::Uint8Array::new(&buffer);
             return Some(uint8_array.to_vec());
           }
         }
