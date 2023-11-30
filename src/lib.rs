@@ -22,11 +22,7 @@ pub async fn run() {
   let params = parse_query_string(&search);
   
   let bios = if let Some(link) = params.get("bios") {
-    let data1 = fetch(&window, link).await;
-    if let Some(data) = data1 {
-      panic!("len: {}", data.len());
-    }
-    data1
+    fetch(&window, link).await
   } else { None };
 
   let rom = if let Some(link) = params.get("rom") {
@@ -98,32 +94,17 @@ fn parse_query_string(query_string: &str) -> std::collections::HashMap<String, S
 }
 
 async fn fetch(window: &web_sys::Window, link: &str) -> Option<Vec<u8>> {
-  let mut opts = web_sys::RequestInit::new();
-  opts.method("GET");
-  opts.mode(web_sys::RequestMode::Cors);
-
-  if let Ok(request) = web_sys::Request::new_with_str_and_init(link, &opts) {
+  if let Ok(request) = web_sys::Request::new_with_str(link) {
     if let Ok(resp_value) = wasm_bindgen_futures::JsFuture::from(window.fetch_with_request(&request)).await {
       if let Ok(resp) = resp_value.dyn_into::<web_sys::Response>() {
-        if let Ok(blob_future) = resp.blob() {
-          let blob = wasm_bindgen_futures::JsFuture::from(blob_future).await;
-          if let Ok(blob_text) = blob {
-            let uint8_array = js_sys::Uint8Array::new(&blob_text);
+        if let Ok(blob_future) = resp.array_buffer() {
+          if let Ok(blob) = wasm_bindgen_futures::JsFuture::from(blob_future).await {
+            let uint8_array = js_sys::Uint8Array::new(&blob);
             return Some(uint8_array.to_vec());
-          } else {
-            panic!("fail0");
           }
-        } else {
-        panic!("fail1");
         }
-      } else {
-      panic!("fail2");
       }
-    } else {
-    panic!("fail3");
     }
-  } else {
-    panic!("fail4");
   }
   None
 }
