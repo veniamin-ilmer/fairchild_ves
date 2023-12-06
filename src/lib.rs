@@ -1,12 +1,9 @@
 #![forbid(unsafe_code)]
 
-mod sound;      //100 frames per second
-mod video;      //50 frames per second
-mod keyboard;   //25 frames per second
-mod side_panel; //12.5 frames per second
-
-/// 100 frames per second is 10 milliseconds. cpu runs at 500 ns per clock. So 10 millisecond / 500 ns gives us how many clocks per frame.
-const CLOCKS_PER_REFRESH: usize = 10_000_000 / 500;
+mod sound;
+mod video;
+mod keyboard;
+mod side_panel;
 
 use wasm_bindgen::prelude::*;
 
@@ -29,56 +26,40 @@ pub async fn run() {
     fetch(&window, link).await
   } else { None };
 
-  
+  //let rom = Some(include_bytes!("../roms/pfootbll.bin").to_vec());
+    
   let mut board = fairchild_ves::Board::new(bios, rom);
   let mut keyboard = keyboard::Keyboard::new();
   let mut video = video::Video::new();
   let mut sound = sound::Sound::new();
   let mut side_panel = side_panel::SidePanel::new();
 
-  
   let mut refresh_count = 0;
+  //Frame cycle
   loop {
-    let start_time = instant::Instant::now();
+    //Instruction cycle
+    loop {
+      keyboard.run_cycle(&mut board);
+      let clock_ticks = board.run_cycle() as usize;
+      if sound.run_cycle(&board, clock_ticks) {
+        //We filled up the sound buffer. We shouldn't run any more instructions until we get a new buffer. Go to the next frame.
+        break;
+      }
+    }
 
     refresh_count += 1;
-    sound.run_refresh_cycle(&board);
-    
+    video.run_refresh_cycle(&board);
+
     if refresh_count % 2 == 0 {
-      video.run_refresh_cycle(&board);
-    }
-    
-    if refresh_count % 4 == 0 {
       keyboard.run_refresh_cycle(&mut board);
-    }
-    
-    if refresh_count % 8 == 0 {
       side_panel.print_memory(&board);
       refresh_count = 0;
     }
     
-    let mut clock_ticks = 0;
-    while CLOCKS_PER_REFRESH > clock_ticks {
-      keyboard.run_cycle(&mut board);
-      sound.run_cycle(&board);
-      clock_ticks += board.run_cycle() as usize;
-    }
-    
-    //Getting the current time is actually an expensive operation in web browsers, so I only do it in the refresh cycle.
-    let duration = instant::Instant::now() - start_time;
-    sleep(&window, 10 - duration.as_millis() as i32).await;  //40 milliseconds delay = 25 frames per second
+    sound.run_refresh_cycle().await;  //Wait till the previous sound was played.
   }
 
 }
-
-/// A trick to get browsers to "sleep" by awaiting a set_timeout
-async fn sleep(window: &web_sys::Window, ms: i32) {
-  let promise = js_sys::Promise::new(&mut |resolve, _| {
-    window.set_timeout_with_callback_and_timeout_and_arguments_0(&resolve, ms).unwrap();
-  });
-  let _ = wasm_bindgen_futures::JsFuture::from(promise).await;
-}
-
 
 fn parse_query_string(query_string: &str) -> std::collections::HashMap<String, String> {
   let mut result = std::collections::HashMap::new();

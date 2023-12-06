@@ -16,6 +16,7 @@ console_error_panic_hook = "0.1.7"
 instant = { version = "0.1.12", features = [ "wasm-bindgen" ] }
 js-sys = "0.3.65"
 wasm-bindgen-futures = "0.4.38"
+futures = "*"
 
 [dependencies.web-sys]
 web-sys = "0.3.65"
@@ -30,9 +31,12 @@ features = [
   'AudioContext',
   'AudioContextState',
   'AudioDestinationNode',
-  'OscillatorNode',
+  'AudioBuffer',
+  'AudioBufferSourceNode',
   'OscillatorType',
+  'OscillatorNode',
   'AudioParam',
+  'GainNode',
   
   'Url',
   'Location',
@@ -42,4 +46,9 @@ features = [
   'RequestInit',
   'RequestMode',
   'Response',
+  
+  'console',
 ]
+
+[profile.release]
+lto = true
