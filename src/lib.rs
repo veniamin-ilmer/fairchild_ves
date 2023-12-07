@@ -26,7 +26,7 @@ pub async fn run() {
     fetch(&window, link).await
   } else { None };
 
-  //let rom = Some(include_bytes!("../roms/pfootbll.bin").to_vec());
+  //let rom = Some(include_bytes!("../roms/Pinball Challenge (USA).bin").to_vec());
     
   let mut board = fairchild_ves::Board::new(bios, rom);
   let mut keyboard = keyboard::Keyboard::new();
@@ -41,6 +41,7 @@ pub async fn run() {
     loop {
       keyboard.run_cycle(&mut board);
       let clock_ticks = board.run_cycle() as usize;
+      board.cpu.print();
       if sound.run_cycle(&board, clock_ticks) {
         //We filled up the sound buffer. We shouldn't run any more instructions until we get a new buffer. Go to the next frame.
         break;
