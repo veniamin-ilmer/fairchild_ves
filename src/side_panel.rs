@@ -17,9 +17,9 @@ impl SidePanel {
   pub fn print_memory(&mut self, board: &fairchild_ves::Board) {
     let tr_list = &self.registers;
     let regs = board.cpu.regs;
-    for high in 0_usize..=0x3 {
-      for low in 0_usize..=0x0F {
-        let address = low + high * 0x10;
+    for high in 0_usize..=0x7 {
+      for low in 0_usize..=0x07 {
+        let address = low + high * 0o10;
         if self.memory[address] != regs[address] {
           self.memory[address] = regs[address];
           let row_index = 1 + high as u32;
