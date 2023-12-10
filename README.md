@@ -14,7 +14,7 @@ Videocart 6 - Math Quiz | Works
 Videocart 7 - Math Quiz 2 | Works-Buggy
 Videocart 8 - Magic Numbers, etc | Works
 Videocart 9 - Drag Race | Works?
-Videocart 10 - Maze | Broken
+Videocart 10 - Maze | Works
 Videocart 11 - Backgammon, etc | Works?
 Videocart 12 - Baseball | Works?
 Videocart 13 - Robot War, etc | Works
