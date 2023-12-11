@@ -33,10 +33,7 @@ features = [
   'AudioDestinationNode',
   'AudioBuffer',
   'AudioBufferSourceNode',
-  'OscillatorType',
-  'OscillatorNode',
   'AudioParam',
-  'GainNode',
   
   'Url',
   'Location',
@@ -52,3 +49,4 @@ features = [
 
 [profile.release]
 lto = true
+opt-level = 's'

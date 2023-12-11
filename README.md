@@ -1,13 +1,13 @@
 # View Live
 
-[https://veniamin-ilmer.github.io/fairchild_ves/] - Make sure to add in ?bios=bios file&rom=rom file. You can find these online.
+https://veniamin-ilmer.github.io/fairchild_ves/ - Make sure to add in ?bios=bios file&rom=rom file. You can find these online.
 
 ROM | Status
 ----|-------
 BIOS alone | Works
 Videocart 1 - Tic-Tac-Toe, etc | Works
 Videocart 2 - Desert Fox, etc | Works
-Videocart 3 - Video Blackjack | Buggy-Broken
+Videocart 3 - Video Blackjack | Works (Hit Mode then 3 to switch to the right player)
 Videocart 4 - Spitfire | Works
 Videocart 5 - Space War | Works
 Videocart 6 - Math Quiz | Works
