@@ -38,7 +38,7 @@
         color: red;
       }
       
-      .desktoponly {display:display;}
+      .desktoponly {display:block;}
 
       @media only screen and (max-width: 1000px) {
       .desktoponly {display:none;}
@@ -230,6 +230,10 @@
         pendingWheel = 0;
         return pending;
       }
+      
+      function newROM() {
+        window.location.href = window.location.pathname + "?bios=" + document.getElementById('bios').value + "&rom=" + document.getElementById('rom').value;
+      }
     </script>
     
   </head>
@@ -263,8 +267,16 @@
         <button code="4"><table class="button-inner"><tr><td>Start</td></tr><tr><td>20 Min</td></tr><tr><td>4</td></tr><tr><td>Game 4</td></tr></table></button>
         <table class="button-inner"><tr><td>S? Select</td></tr><tr><td>T? Time Limit</td></tr><tr><td>M? Speed</td></tr><tr><td>G? Pick Game</td></tr></table>
       </div>
-      <div class="desktoponly">
-        (Keyboard: F1, F2, F3, F4)
+      <div class="desktoponly" style="width: 100%">
+        <center>(Keyboard: F1, F2, F3, F4)</center>
+
+        <h4>Run a ROM</h4>
+        <table style="width:100%">
+          <tr><td><label for="bios">BIOS:</label></td><td style="width:100%"><input text="text" id="bios" name="bios" style="width:100%"></label></td></tr>
+          <tr><td><label for="rom">ROM:</label></td><td style="width:100%"><input text="text" id="rom" name="rom" style="width:100%"></label></td></tr>
+        </table>
+        <button onclick="newROM()" style="font-size:14px">Run</button>
+        </form>
       </div>
 
     </article>

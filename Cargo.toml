@@ -45,6 +45,7 @@ features = [
   'Response',
   
   'console',
+  'HtmlInputElement',
 ]
 
 [profile.release]

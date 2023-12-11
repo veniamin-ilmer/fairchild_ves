@@ -18,15 +18,25 @@ pub async fn run() {
   let search = location.search().unwrap();
   let params = parse_query_string(&search);
   
+  let document = window.document().unwrap();
+  
   let bios = if let Some(link) = params.get("bios") {
+    if let Some(element) = document.get_element_by_id("bios") {
+      if let Some(input) = element.dyn_ref::<web_sys::HtmlInputElement>() {
+        input.set_value(link);
+      }
+    }
     fetch(&window, link).await
   } else { None };
 
   let rom = if let Some(link) = params.get("rom") {
+    if let Some(element) = document.get_element_by_id("rom") {
+      if let Some(input) = element.dyn_ref::<web_sys::HtmlInputElement>() {
+        input.set_value(link);
+      }
+    }
     fetch(&window, link).await
   } else { None };
-
-  //let rom = Some(include_bytes!("../roms/a.out").to_vec());
     
   let mut board = fairchild_ves::Board::new(bios, rom);
   let mut keyboard = keyboard::Keyboard::new();
