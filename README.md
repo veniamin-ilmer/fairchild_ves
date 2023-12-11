@@ -29,5 +29,5 @@ Videocart 21 - Bowling | Works
 Videocart 22 - Slot Machine | Works-Buggy
 Videocart 23 - Galactic Space Wars | Works
 Videocart 24 - Pro Football | Works?
-Videocart 25 - Casino Poker | Broken?
+Videocart 25 - Casino Poker | Works?
 Videocart 26 - Alien Invasion | Unclear
