@@ -28,8 +28,8 @@ impl Video {
       let background = get_background_bits(board, y);
       let html_background = match background {
         (true, true) => "#94ffa4",
-        (false, true) => "#e6e2e6",
-        (true, false) => "#cdd2ff",
+        (false, true) => "#cdd2ff",
+        (true, false) => "#e6e2e6",
         (false, false) => "#000000",
       };
 
