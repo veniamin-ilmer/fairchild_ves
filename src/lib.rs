@@ -7,7 +7,7 @@ mod side_panel;
 
 use wasm_bindgen::prelude::*;
 
-use boards::fairchild_ves;
+use chips::fairchild_f8;
 
 #[wasm_bindgen]
 pub async fn run() {
@@ -38,7 +38,7 @@ pub async fn run() {
     fetch(&window, link).await
   } else { None };
     
-  let mut board = fairchild_ves::Board::new(bios, rom);
+  let mut board = fairchild_f8::Board::new(bios, rom);
   let mut keyboard = keyboard::Keyboard::new();
   let mut video = video::Video::new();
   let mut sound = sound::Sound::new();

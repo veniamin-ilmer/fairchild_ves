@@ -1,4 +1,4 @@
-use boards::fairchild_ves;
+use chips::fairchild_f8;
 
 pub struct SidePanel {
   registers: web_sys::HtmlCollection,
@@ -14,7 +14,7 @@ impl SidePanel {
     }
   }
   
-  pub fn print_memory(&mut self, board: &fairchild_ves::Board) {
+  pub fn print_memory(&mut self, board: &fairchild_f8::Board) {
     let tr_list = &self.registers;
     let regs = board.cpu.regs;
     for high in 0_usize..=0x7 {

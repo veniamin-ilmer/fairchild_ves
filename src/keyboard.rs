@@ -1,4 +1,4 @@
-use boards::fairchild_ves;
+use chips::fairchild_f8;
 use wasm_bindgen::prelude::*;
 
 #[derive(Default)]
@@ -59,7 +59,7 @@ impl Keyboard {
     }
   }
   
-  pub fn run_cycle(&self, board: &mut fairchild_ves::Board) {
+  pub fn run_cycle(&self, board: &mut fairchild_f8::Board) {
     //buttons are inversed 4 low bits
     board.ports[0] = (board.ports[0] & 0b11110000) | console_to_port(&self.pressed_buttons); //Clear the console buttons before setting them below..
     
@@ -74,7 +74,7 @@ impl Keyboard {
   
 
   
-  pub fn run_refresh_cycle(&mut self, board: &mut fairchild_ves::Board) {
+  pub fn run_refresh_cycle(&mut self, board: &mut fairchild_f8::Board) {
     let (x, y) = self.get_movement();
     //Mouse shouldn't interrupt keyboard press
     if self.pressed_buttons.left != Action::Keyboard

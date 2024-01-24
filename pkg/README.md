@@ -1,6 +1,6 @@
 # View Live
 
-https://veniamin-ilmer.github.io/fairchild_ves/ - Make sure to add in ?bios=bios file&rom=rom file. You can find these online.
+https://veniamin-ilmer.github.io/fairchild_ves/ - Make sure to link to the BIOS and ROM to run them.
 
 ROM | Status
 ----|-------

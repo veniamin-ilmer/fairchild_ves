@@ -1,4 +1,4 @@
-use boards::fairchild_ves;
+use chips::fairchild_f8;
 use wasm_bindgen::prelude::*;
 
 pub(super) struct Video {
@@ -21,27 +21,32 @@ impl Video {
   }
   
   /// Out of the 128x64 ram, display only 102x58
-  pub fn run_refresh_cycle(&mut self, board: &fairchild_ves::Board) {
+  pub fn run_refresh_cycle(&mut self, board: &fairchild_f8::Board) {
     //Browsers are actually really inefficient at drawing pixels. So I hold in memory what the browser last drew and only draw what changed.
     for y in 2..=59 {
       
       let background = get_background_bits(board, y);
       let html_background = match background {
-        (true, true) => "#94ffa4",
-        (false, true) => "#cdd2ff",
-        (true, false) => "#e6e2e6",
-        (false, false) => "#000000",
+        (true, true) => "#94ffa4",    //Light green
+        (false, true) => "#cdd2ff",   //Light blue
+        (true, false) => "#e6e2e6",   //Gray
+        (false, false) => "#000000",  //Black
       };
 
       for x in 20..=127 - 4 { //Lots of pixels are not displayed on the TV..
         let color = get_pixel(board, x, y);
         if self.memory[x][y] != (color, background) {
           self.memory[x][y] = (color, background);
-          let html_color = wasm_bindgen::JsValue::from(match color {
-            (true, true) => "#00ce5a",
-            (false, true) => "#ff3052",
-            (true, false) => "#4a3cf6",
-            (false, false) => html_background,
+          let html_color = wasm_bindgen::JsValue::from(if background == (false, false) && color != (false, false) {
+            //black and white converts all colors to white
+            "#FFFFFF" //white
+          } else {
+            match color {
+              (true, true) => "#00ce5a",  //Green
+              (false, true) => "#ff3052", //Red
+              (true, false) => "#4a3cf6", //Blue
+              (false, false) => html_background,
+            }
           });
           let canvas_context: &web_sys::CanvasRenderingContext2d = self.canvas_context.dyn_ref().unwrap();
           canvas_context.set_fill_style(&html_color);
@@ -53,7 +58,7 @@ impl Video {
 }
 
 /// Pixels 1 and 2 contain the background..
-fn get_background_bits(board: &fairchild_ves::Board, y: usize) -> (bool, bool) {
+fn get_background_bits(board: &fairchild_f8::Board, y: usize) -> (bool, bool) {
   let address = y * 128 + 1;
   let bit0 = if address < 0x1000 {
     board.vram[2].read_bit(address)
@@ -68,7 +73,7 @@ fn get_background_bits(board: &fairchild_ves::Board, y: usize) -> (bool, bool) {
   (bit0, bit1)
 }
 
-fn get_pixel(board: &fairchild_ves::Board, x: usize, y: usize) -> (bool, bool) {
+fn get_pixel(board: &fairchild_f8::Board, x: usize, y: usize) -> (bool, bool) {
   let address = x + y * 128;
   let bit0 = if address < 0x1000 {
     board.vram[0].read_bit(address)

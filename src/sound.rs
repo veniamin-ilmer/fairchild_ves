@@ -1,4 +1,4 @@
-use boards::fairchild_ves;
+use chips::fairchild_f8;
 
 // The way this sound system works is by saving multiple buffers and feeding them to the browser at the right time.
 //
@@ -64,7 +64,7 @@ impl Sound {
   }
 
   /// Buffers sound. Returns true once we fill up the sound audio_buffer, so the refresh can occur.
-  pub fn run_cycle(&mut self, board: &fairchild_ves::Board, clock_ticks: usize) -> bool {
+  pub fn run_cycle(&mut self, board: &fairchild_f8::Board, clock_ticks: usize) -> bool {
     self.total_clock_ticks += clock_ticks as u64;
     let audio_buffer_index = (self.total_clock_ticks * self.sample_rate / TICKS_PER_SECOND) as usize;
     if audio_buffer_index >= self.audio_buffer.len() {
